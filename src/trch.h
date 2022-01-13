@@ -30,10 +30,13 @@
 
 #define TRISA_FPGA_READY   0x00
 #define TRCH_CFG_MEM_SEL   PORTAbits.RA0
+#define FPGA_BOOT0         PORTAbits.RA1
+#define FPGA_BOOT1         PORTAbits.RA2
 #define FPGA_PROGRAM_B     PORTAbits.RA3
 #define FPGA_PROGRAM_B_DIR TRISAbits.TRISA3
 #define FPGA_INIT_B        PORTAbits.RA4
 #define FPGA_INIT_B_DIR    TRISAbits.TRISA4
+#define FPGA_CDRST_B       PORTAbits.RA5
 
 /*
  * PORTB Hardware
@@ -51,6 +54,7 @@
 #define PORTB_INIT         0x00
 
 #define CFG_DONE           PORTBbits.RB1
+#define FPGA_WATCHDOG      PORTBbits.RB4
 #define FPGA_CFG_MEM_SEL   PORTBbits.RB5
 
 /*
@@ -97,8 +101,12 @@
 #define EXT_SDA_DIR        TRISDbits.TRISD3
 #define EXT_SDA_DAT        PORTDbits.RD3
 #define UIO3_00            PORTDbits.RD4
+#define UIO3_00_DIR        TRISDbits.TRISD4
 #define UIO3_01            PORTDbits.RD5
+#define UIO3_01_DIR        TRISDbits.TRISD5
 #define UIO3_02            PORTDbits.RD6
+#define UIO3_02_DIR        TRISDbits.TRISD6
+#define FPGA_RESERVE       PORTDbits.RD7
 
 /*
  * PORTE Hardware
@@ -110,4 +118,6 @@
 #define TRISE_INIT         0x07
 #define PORTE_INIT         0x00
 
+#define WDOG_OUT           PORTEbits.RE0
+#define WDOG_OUT_DIR       TRISEbits.TRISE0
 #define VDD_3V3            PORTEbits.RE1
