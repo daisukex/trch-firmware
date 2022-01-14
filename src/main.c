@@ -195,7 +195,40 @@ void main (void) {
 #if ENABLE_CMD_PARSER
         usart_start_receive();
 #endif
+
+        // initilize I/O for shipping test
+        UIO3_01_DIR = 1;
+        UIO3_02_DIR = 1;
+        WDOG_OUT_DIR = 0;
+
         while (1) {
+                // for signal test
+                TRCH_CFG_MEM_SEL = FPGA_CFG_MEM_SEL;
+                UIO3_00 = FPGA_WATCHDOG;
+                WDOG_OUT = CFG_DONE;
+
+                if (UIO3_02 == 0 && UIO3_01 == 0) {
+                        FPGA_BOOT0 = 1;
+                        FPGA_BOOT1 = 0;
+                        FPGA_CDRST_B = 0;
+                        FPGA_RESERVE = 0;
+                } else if (UIO3_02 == 0 && UIO3_01 == 1) {
+                        FPGA_BOOT0 = 0;
+                        FPGA_BOOT1 = 1;
+                        FPGA_CDRST_B = 0;
+                        FPGA_RESERVE = 0;
+                }  else if (UIO3_02 == 1 && UIO3_01 == 0) {
+                        FPGA_BOOT0 = 0;
+                        FPGA_BOOT1 = 0;
+                        FPGA_CDRST_B = 1;
+                        FPGA_RESERVE = 0;
+                } else if (UIO3_02 == 1 && UIO3_01 == 1) {
+                        FPGA_BOOT0 = 0;
+                        FPGA_BOOT1 = 0;
+                        FPGA_CDRST_B = 0;
+                        FPGA_RESERVE = 1;
+                }
+
                 // FPGA State Control
                 fpgafunc[tst.fmd.state](&tst.fmd);
 
@@ -206,6 +239,8 @@ void main (void) {
                         cmd_parser(&tst.fmd, msg);
                 }
 #endif
+
+
         }
         return;
 }
